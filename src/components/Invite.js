@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { apiAcceptInvite, getActiveWander, getInvites } from "./Services";
 import { Alert, Button, Card, Col, Row, Spin } from "antd";
+import { useNavigate } from "react-router-dom";
 
 function Invite() {
   const wandererId = JSON.parse(localStorage.getItem("user")).wandererId;
   const [active, setActive] = useState();
-
+  let navigate = useNavigate();
   const { isLoading, isError, data } = useQuery({
     queryKey: [`invite`, { wandererId: wandererId }],
     queryFn: async () => {
@@ -36,7 +37,8 @@ function Invite() {
         status: "accept",
       };
       const response = await apiAcceptInvite(wandererId, body);
-      window.location.reload();
+      navigate("/active/wander");
+      // window.location.reload();
     } catch (error) {
       console.log(
         "🚀 ~ file: Invite.js:46 ~ handleAcceptInvite ~ error:",
@@ -45,11 +47,18 @@ function Invite() {
     }
   };
   return (
-    <Row gutter={24}>
+    <Row gutter={[16, 16]}>
       {active ? (
-        <Col span={24}>
-          <Alert message={"you already have active wander"} type="warning" />
-        </Col>
+        <>
+          <Col span={24}>
+            <Alert message={"you already have active wander"} type="warning" />
+          </Col>
+          <Col span={24}>
+            <Button onClick={() => navigate("/active/wander")}>
+              Go to Active Wander
+            </Button>
+          </Col>
+        </>
       ) : null}
       {data?.invite.map((invite) => (
         <Col key={invite.wander_uuid} span={24}>

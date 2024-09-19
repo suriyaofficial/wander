@@ -1,13 +1,6 @@
-// import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
-  Alert,
-  Badge,
-  Card,
   Col,
-  FloatButton,
   Row,
-  Spin,
-  Statistic,
   Drawer,
   Form,
   Input,
@@ -34,7 +27,6 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
   const [amounts, setAmounts] = useState({});
   const [expenseAmount, setExpenseAmount] = useState(null);
   const [remainingAmount, setRemainingAmount] = useState(expenseAmount || 0);
-  const queryClient = useQueryClient();
   const mutation = useMutation({
     mutationFn: async (payload) => {
       if (payload) {
@@ -113,8 +105,6 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
     console.log(expenseData);
 
     mutation.mutateAsync(expenseData);
-
-    // return expenseData;
   };
 
   // Update the handleFinish function to check expenseAmount
@@ -241,8 +231,7 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
         title="Add Expenses"
         width={720}
         onClose={() => {
-          form.resetFields();
-          setSelectedWanderers([]);
+          clear();
           onClose();
         }}
         open={isVisible}
@@ -308,6 +297,7 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
                 ]}
               >
                 <InputNumber
+                  placeholder="Enter Amount "
                   style={{ width: "100%" }}
                   onChange={(value) => setExpenseAmount(value)}
                 />

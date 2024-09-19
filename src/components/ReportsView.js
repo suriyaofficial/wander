@@ -1,4 +1,3 @@
-// import { Button } from "antd";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
@@ -14,12 +13,10 @@ import {
   Menu,
   Alert,
   Button,
-  Divider,
 } from "antd";
 import { MailOutlined, AppstoreOutlined } from "@ant-design/icons";
 import CountUp from "react-countup";
-import Rotate from "../assets/rotateScreen.gif";
-import Lottie from "react-lottie";
+import Rotate from "../assets/Rotate.gif";
 
 const { Title, Text, Paragraph } = Typography;
 
@@ -44,14 +41,7 @@ function ReportsView() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: Rotate,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
+
   const portraitMessageStyle = {
     display: isPortrait ? "block" : "none",
     position: "fixed",
@@ -59,8 +49,8 @@ function ReportsView() {
     left: "50%",
     transform: "translate(-50%, -50%)",
     padding: "20px",
-    background: "rgba(0, 0, 0, 0.8)",
-    color: "white",
+    // background: "rgba(0, 0, 0, 0.2)",
+    color: "black",
     textAlign: "center",
     zIndex: 1000,
   };
@@ -182,23 +172,10 @@ function ReportsView() {
     setSelectedRowKeys(newSelectedRowKeys);
   };
   const getTotalForSelectedRows = () => {
-    console.log(
-      "🚀 ~ file: Reports.js:905 ~ getTotalForSelectedRows ~ selectedRowKeys:",
-      selectedRowKeys
-    );
     const selectedRows = wanderdata?.filter((row) =>
       selectedRowKeys.includes(row.key)
     );
-    console.log(
-      "🚀 ~ file: ReportsView.js:137 ~ getTotalForSelectedRows ~ selectedRows:",
-      selectedRows
-    );
     const totalByUser = {};
-    console.log(
-      "🚀 ~ file: Reports.js:869 ~ getTotalForSelectedRows ~ selectedRows:",
-      selectedRows
-    );
-
     selectedRows?.forEach((row) => {
       Object.keys(row)
         ?.filter((key) => key.startsWith("_"))
@@ -217,11 +194,6 @@ function ReportsView() {
   );
   const renderUserCards = () => {
     const totalByUser = getTotalForSelectedRows();
-    console.log(
-      "🚀 ~ file: Reports.js:900 ~ renderUserCards ~ totalByUser:",
-      totalByUser
-    );
-
     return Object.keys(totalByUser)?.map((userKey) => (
       <Card
         key={userKey}
@@ -266,10 +238,6 @@ function ReportsView() {
           const unequalRows = wanderdata
             ?.filter((row) => row.splitBy === "unequally")
             ?.map((row) => row.key);
-          console.log(
-            "🚀 ~ file: Reports.js:950 ~ Reports ~ unequalRows:",
-            unequalRows
-          );
           setSelectedRowKeys(unequalRows);
         },
       },
@@ -277,10 +245,6 @@ function ReportsView() {
   };
 
   const calculateAmounts = (dataUser) => {
-    console.log(
-      "🚀 ~ file: Reports.js:975 ~ calculateAmounts ~ dataUser:",
-      dataUser
-    );
     const users = [];
 
     // Iterate through the keys of the object
@@ -303,15 +267,7 @@ function ReportsView() {
     });
 
     wanderdata.forEach((expense) => {
-      console.log(
-        "🚀🚀 ~ file: Reports.js:979 ~ wanderdata.forEach ~ expense:",
-        expense
-      );
       users.forEach((user) => {
-        console.log(
-          "🚀🚀 ~ file: Reports.js:981 ~ users.forEach ~ user:",
-          user
-        );
         const spendFromParts = expense?.spendFrom?.split("::");
         const extractedUser = "_" + spendFromParts[1]; // Adding underscore prefix to the extracted part
         if (extractedUser === user) {
@@ -323,8 +279,6 @@ function ReportsView() {
         }
       });
     });
-    console.log("🚀 ~ file: Reports.js:984 ~ users.forEach ~ result:", result);
-
     return result;
   };
 
@@ -347,7 +301,6 @@ function ReportsView() {
         if (user !== otherUser) {
           if (amounts[user] && amounts[otherUser]) {
             const debt = amounts[user][otherUser] - amounts[otherUser][user];
-            console.log("debt--", user, debt);
             consolidated[user][otherUser] = debt > 0 ? debt : 0;
 
             // Ensure otherUser is initialized
@@ -362,11 +315,6 @@ function ReportsView() {
         }
       });
     });
-    console.log(
-      "🚀 ~ file: Reports.js:1016 ~ consolidateDebts ~ consolidated:",
-      consolidated
-    );
-
     return consolidated;
   };
   const items = [
@@ -385,21 +333,13 @@ function ReportsView() {
   return (
     <>
       <div style={portraitMessageStyle}>
-        {/* <svg
-          style={rotateIconStyle}
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="2"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-        >
-          <path d="M12 1v4m0 14v4m-7-7H1m22 0h-4m-6 7c-4.41 0-8-3.59-8-8s3.59-8 8-8v3l4-4 4 4v-3c4.41 0 8 3.59 8 8s-3.59 8-8 8z" />
-        </svg> */}
-        {/* <div style={{ width: "100px", height: "100px", marginBottom: "10px" }}>
-          <Lottie options={defaultOptions} height={100} width={100} />
-        </div> */}
+        <div style={{ textAlign: "center" }}>
+          <img
+            src={Rotate}
+            alt="Rotating Screen"
+            style={{ maxWidth: "100%", height: "auto" }}
+          />
+        </div>
         <p>Please rotate your screen to landscape mode to view reports.</p>
       </div>
       {!isPortrait && (
@@ -443,7 +383,6 @@ function ReportsView() {
                       type="inner"
                       title={<Text>{user.replaceAll("_", " ")} owes</Text>}
                       size="small"
-                      // style={{ marginBottom: "16px", marginRight: "16px" }}
                     >
                       <List
                         grid={{ gutter: 16, column: 4 }} // Adjust the number of columns as needed
@@ -463,9 +402,7 @@ function ReportsView() {
                                 </>
                               }
                               type="error"
-                              // showIcon
                             />
-                            {/* <Card title={otherUser} size="small"></Card> */}
                           </List.Item>
                         )}
                       />

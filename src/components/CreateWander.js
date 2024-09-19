@@ -129,8 +129,13 @@ function CreateWander() {
   };
 
   return (
-    <>
-      <Button onClick={showDrawer} icon={<PlusCircleTwoTone />}>
+    <div>
+      <Button
+        style={{ fontSize: "30px", padding: "20px", height: "60px" }}
+        size="large"
+        onClick={showDrawer}
+        icon={<PlusCircleTwoTone style={{ fontSize: "30px" }} />}
+      >
         Create Wander
       </Button>
       <Drawer
@@ -252,7 +257,7 @@ function CreateWander() {
           </Tabs.TabPane>
         </Tabs>
       </Drawer>
-    </>
+    </div>
   );
 }
 

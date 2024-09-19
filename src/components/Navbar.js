@@ -7,7 +7,14 @@ import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import { getAuth, signOut } from "firebase/auth";
 import { Col, Row, Button, Drawer, Divider, Tag } from "antd";
-import { MenuOutlined } from "@ant-design/icons";
+import {
+  DeleteTwoTone,
+  FileImageTwoTone,
+  LockTwoTone,
+  MenuOutlined,
+  SoundTwoTone,
+  StarTwoTone,
+} from "@ant-design/icons";
 
 const Navbar = () => {
   const auth = getAuth(app);
@@ -45,14 +52,7 @@ const Navbar = () => {
 
   return (
     <>
-      <Row
-        gutter={{
-          xs: 8,
-          sm: 16,
-          md: 24,
-          lg: 32,
-        }}
-      >
+      <Row>
         <Col className="gutter-row">
           <Button size={"large"} type="primary" onClick={showDrawer}>
             <MenuOutlined />
@@ -63,49 +63,93 @@ const Navbar = () => {
       <Drawer title="Menu" onClose={onClose} open={open}>
         <Tag
           color="processing"
-          style={{ width: "100%", textAlign: "center", fontWeight: 600 }}
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            textTransform: "capitalize",
+            width: "100%",
+            marginBottom: "10px",
+            padding: "10px",
+            fontWeight: "600",
+            fontSize: "30px",
+          }}
         >
           {userData.wanderer}
         </Tag>
         <Divider />
         <Button
+          size="large"
+          icon={
+            <StarTwoTone
+              twoToneColor={"orange"}
+              style={{ fontSize: "30px", alignItems: "left" }}
+            />
+          }
           value="active/wander"
-          style={{ width: "100%", marginBottom: "10px" }}
+          style={{
+            width: "100%",
+            marginBottom: "10px",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            fontWeight: "bolder",
+          }}
           onClick={(e) => menu("active/wander")}
         >
-          active
+          Active Wander
         </Button>
         <br />
         <Button
-          value="completed/wander"
-          style={{ width: "100%", marginBottom: "10px" }}
-          onClick={(e) => menu("completed/wander")}
-        >
-          completed
-        </Button>
-        <br />
-        <Button
+          size="large"
+          icon={<SoundTwoTone style={{ fontSize: "30px" }} />}
           value="invite"
-          style={{ width: "100%", marginBottom: "10px" }}
+          style={{
+            width: "100%",
+            marginBottom: "10px",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            fontWeight: "bolder",
+          }}
           onClick={(e) => menu("invite")}
         >
-          invite
+          Wander Invitation
         </Button>
         <br />
         <Button
+          size="large"
+          icon={<FileImageTwoTone style={{ fontSize: "30px" }} />}
           value="reports"
-          style={{ width: "100%", marginBottom: "10px" }}
+          style={{
+            width: "100%",
+            marginBottom: "10px",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            fontWeight: "bolder",
+          }}
           onClick={(e) => menu("reports")}
         >
-          reports
+          Wander Reports
         </Button>
         <br />
         <Button
+          size="large"
+          icon={
+            <LockTwoTone twoToneColor={"red"} style={{ fontSize: "30px" }} />
+          }
           value="logout"
-          style={{ width: "100%", marginBottom: "10px" }}
+          style={{
+            width: "100%",
+            marginBottom: "10px",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            fontWeight: "bolder",
+          }}
           onClick={logout}
         >
-          logout
+          Logout
         </Button>
         <br />
       </Drawer>

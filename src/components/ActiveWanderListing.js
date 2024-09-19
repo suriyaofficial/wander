@@ -301,9 +301,13 @@ function ActiveWanderListing(activewanderdata) {
     setSelectedExpUuid(expUuid);
     setIsModalVisible(true);
   };
+
   const sortedExpenses = wanderdata?.existingwander?.expenses.sort(
-    (a, b) => new Date(a.expenseDate) - new Date(b.expenseDate)
+    (a, b) =>
+      new Date(a.expenseDate.split("-").reverse().join("-")) -
+      new Date(b.expenseDate.split("-").reverse().join("-"))
   );
+
   return (
     <>
       {!iswanderLoading ? (
@@ -426,6 +430,7 @@ function ActiveWanderListing(activewanderdata) {
                               }
                             >
                               <Button
+                                size="large"
                                 type="link"
                                 icon={
                                   popoverVisible[expense.exp_uuid] ? (
@@ -437,6 +442,7 @@ function ActiveWanderListing(activewanderdata) {
                               />
                             </Popover>,
                             <Button
+                              size="large"
                               icon={<DeleteTwoTone twoToneColor={"red"} />}
                               style={{ border: "none" }}
                               onClick={() =>

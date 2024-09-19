@@ -1,10 +1,9 @@
-import React, { useState, useEffect } from "react";
-import { Button, DatePicker, Input, Select } from "antd";
-import debounce from "lodash/debounce";
+import React from "react";
 import CreateWander from "./CreateWander";
 import { useQuery } from "@tanstack/react-query";
 import { getActiveWander } from "./Services";
 import ActiveWanderListing from "./ActiveWanderListing";
+import { Col, Row } from "antd";
 function ActiveWander() {
   const wandererId = JSON.parse(localStorage.getItem("user")).wandererId;
   const {
@@ -21,13 +20,26 @@ function ActiveWander() {
   });
   return (
     <>
-      {activewanderdata?.length > 0 ? (
+      {activewanderdata?.length > 10 ? (
         <>
           <ActiveWanderListing activewanderdata={activewanderdata} />
         </>
       ) : (
         <>
-          <CreateWander />
+          <Row
+            gutter={[16, 16]}
+            style={{
+              display: "flex",
+              alignContent: "center",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "80vh",
+            }}
+          >
+            <Col>
+              <CreateWander />
+            </Col>
+          </Row>
         </>
       )}
     </>

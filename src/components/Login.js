@@ -17,14 +17,6 @@ function Login() {
     );
     try {
       let result = await signInWithPopup(auth, provider);
-      console.log(
-        "🚀 ~ file: Login.js:18 ~ signInWithGoogle ~ result:",
-        result
-      );
-      console.log(
-        "🚀 ~ file: Login.js:21 ~ signInWithGoogle ~ result:",
-        result.user.providerData[0]
-      );
       const data = {
         wandererId: result.user.providerData[0].email,
         wanderer: result.user.providerData[0].displayName,
