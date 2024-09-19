@@ -5,6 +5,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import GoogleButton from "react-google-button";
 import axios from "axios";
 import { BASE_URL } from "../common.ts";
+import { Col, Row } from "antd";
 
 function Login() {
   const auth = getAuth(app);
@@ -32,10 +33,20 @@ function Login() {
   };
   return (
     <>
-      <div className="mainDiv">
-        <h3>Welcome...</h3>
-        <GoogleButton type="light" onClick={signInWithGoogle} />
-      </div>
+      <Row
+        gutter={[16, 16]}
+        style={{
+          display: "flex",
+          alignContent: "center",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "80vh",
+        }}
+      >
+        <Col>
+          <GoogleButton type="light" onClick={signInWithGoogle} />
+        </Col>
+      </Row>{" "}
     </>
   );
 }
