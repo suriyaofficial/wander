@@ -27,6 +27,7 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
   const [amounts, setAmounts] = useState({});
   const [expenseAmount, setExpenseAmount] = useState(null);
   const [remainingAmount, setRemainingAmount] = useState(expenseAmount || 0);
+  const [addExpensesLoading, setAddExpensesLoading] = useState(false);
   const mutation = useMutation({
     mutationFn: async (payload) => {
       if (payload) {
@@ -34,6 +35,7 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
       }
     },
     onSuccess: () => {
+      setAddExpensesLoading(false)
       form.resetFields();
       clear();
       onClose();
@@ -109,6 +111,7 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
 
   // Update the handleFinish function to check expenseAmount
   const handleFinish = async () => {
+    setAddExpensesLoading(true)
     form
       .validateFields()
       .then((values) => {
@@ -245,13 +248,13 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
             }}
           >
             <Button onClick={clear}>Clear</Button>
-            <Button type="primary" htmlType="submit" onClick={handleFinish}>
+            <Button loading={addExpensesLoading} type="primary" htmlType="submit" onClick={handleFinish}>
               Apply
             </Button>
           </Space>
         }
       >
-        <Form form={form} layout="vertical">
+        <Form form={form} layout="vertical" disabled={addExpensesLoading}>
           <Row gutter={[16, 16]}>
             <Col span={12}>
               {/* Expense Date */}

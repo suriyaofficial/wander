@@ -37,7 +37,7 @@ function Invite() {
         status: "accept",
       };
       const response = await apiAcceptInvite(wandererId, body);
-      navigate("/active/wander");
+      navigate("/wander/active/wander");
       // window.location.reload();
     } catch (error) {
       console.log(
@@ -54,7 +54,7 @@ function Invite() {
             <Alert message={"you already have active wander"} type="warning" />
           </Col>
           <Col span={24}>
-            <Button onClick={() => navigate("/active/wander")}>
+            <Button onClick={() => navigate("/wander/active/wander")}>
               Go to Active Wander
             </Button>
           </Col>

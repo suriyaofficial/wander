@@ -23,7 +23,7 @@ function Reports() {
   });
 
   const handleViewReports = (uuid) => {
-    navigate(`/reports/view?uuid=${uuid}`);
+    navigate(`/wander/reports/view?uuid=${uuid}`);
   };
 
   return (

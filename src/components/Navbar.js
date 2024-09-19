@@ -35,7 +35,7 @@ const Navbar = () => {
   };
   const menu = (e) => {
     // console.log("🚀 ~ file: Navbar.js:42 ~ routeMenu ~ e:", e.target.value);
-    navigate(`/${e}`);
+    navigate(`/wander/${e}`);
     setOpen(false);
   };
 

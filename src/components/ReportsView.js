@@ -354,7 +354,7 @@ function ReportsView() {
               />
             </Col>
             <Col span={2}>
-              <Button onClick={() => navigate(`/reports`)}>back</Button>
+              <Button onClick={() => navigate(`/wander/reports`)}>back</Button>
             </Col>
           </Row>
 
