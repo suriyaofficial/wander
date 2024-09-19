@@ -1,5 +1,6 @@
 import axios from "axios";
-const BASE_URL = "http://localhost:3100";
+import { BASE_URL } from "../common.ts";
+
 export async function getInvites(wandererId) {
   const requestUrl = `${BASE_URL}/wander/inivitation?wandererId=${wandererId}`;
   // const requestUrla = `${API_BASE_URL}/wander/inivitation?wandererId=${wandererId}`;

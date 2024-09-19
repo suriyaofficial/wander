@@ -4,12 +4,12 @@ import { app } from "../firebaseconfig";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import GoogleButton from "react-google-button";
 import axios from "axios";
+import { BASE_URL } from "../common.ts";
 
 function Login() {
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
   const [userData, setUserData] = useState();
-  const port = "http://localhost:3100";
 
   const signInWithGoogle = async () => {
     console.log(
@@ -31,7 +31,7 @@ function Login() {
         wandererPhoto: result.user.providerData[0].photoURL,
       };
 
-      const response = await axios.post(`${port}/login/`, data);
+      const response = await axios.post(`${BASE_URL}/login/`, data);
       localStorage.setItem("user", JSON.stringify(response.data.data));
       window.location.reload();
     } catch (error) {

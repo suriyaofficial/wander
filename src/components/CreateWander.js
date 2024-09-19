@@ -17,6 +17,7 @@ import {
 import debounce from "lodash/debounce";
 import { useQuery } from "@tanstack/react-query";
 import { CreateWanderApi } from "./Services";
+import { BASE_URL } from "../common.ts";
 
 function CreateWander() {
   const [form] = Form.useForm();
@@ -102,7 +103,7 @@ function CreateWander() {
     if (emailRegex.test(value)) {
       setFetching(true);
       const response = await axios.get(
-        `http://localhost:3100/wanderer?wandererId=${value}`
+        `${BASE_URL}/wanderer?wandererId=${value}`
       );
       console.log(
         "🚀 ~ file: CreateWander.js:89 ~ fetchOptions ~ response:",
