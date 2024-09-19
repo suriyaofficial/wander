@@ -20,7 +20,7 @@ function ActiveWander() {
   });
   return (
     <>
-      {activewanderdata?.length > 10 ? (
+      {activewanderdata?.length > 0 ? (
         <>
           <ActiveWanderListing activewanderdata={activewanderdata} />
         </>
