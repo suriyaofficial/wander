@@ -32,7 +32,7 @@ function App() {
           <Router>
             <Navbar />
             <Routes>
-              <Route path="/" element={<ActiveWander />} />
+              {/* <Route path="/" element={<ActiveWander />} /> */}
               <Route path="/wander" element={<ActiveWander />} />
               <Route path="/wander/active/wander" element={<ActiveWander />} />
               <Route path="/wander/invite" element={<Invite />} />
