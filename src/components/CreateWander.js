@@ -16,11 +16,14 @@ import {
   Tabs,
 } from "antd";
 import debounce from "lodash/debounce";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { CreateWanderApi } from "./Services";
 import { BASE_URL } from "../common.ts";
+import { useNavigate } from "react-router-dom";
 
 function CreateWander() {
+  let navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [form] = Form.useForm();
   const { Option } = Select;
   const [open, setOpen] = useState(false);
@@ -84,7 +87,6 @@ function CreateWander() {
       content: "Wander creating ...",
       duration: 0,
     });
-    const loadingMessage = message.loading("Wander creating ...", 0); // Persistent loading message
     try {
       const body = {
         wanderType,
@@ -100,9 +102,7 @@ function CreateWander() {
       message.success("Wander Created successful!", 2); // Success message
       form.resetFields();
       onClose();
-      setTimeout(() => {
-        window.location.reload(); // Reload after success
-      }, 2000);
+      queryClient.invalidateQueries(["activeWander", { wandererId }]);
       console.log("Form submitted successfully:", response);
     } catch (error) {
       message.error("Wander Creating failed. Please try again.", 2); // Error message
@@ -111,18 +111,19 @@ function CreateWander() {
   };
 
   const fetchOptions = debounce(async (value) => {
-    if (emailRegex.test(value)) {
+    if (emailRegex.test(value) && value !== wandererId) {
       setFetching(true);
       const response = await axios.get(
         `${BASE_URL}/wanderer?wandererId=${value}`
       );
-
-      setOptions([
-        {
-          label: response.data.wanderer,
-          value: `${response.data.wandererId}::${response.data.wandererPhoto}`,
-        },
-      ]);
+      if (response.data !== "") {
+        setOptions([
+          {
+            label: response.data.wanderer,
+            value: `${response.data.wandererId}::${response.data.wandererPhoto}`,
+          },
+        ]);
+      }
       setFetching(false);
     }
   }, 800);

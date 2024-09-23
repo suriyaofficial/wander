@@ -117,8 +117,6 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
 
   // Update the handleFinish function to check expenseAmount
   const handleFinish = async () => {
-    setAddExpensesLoading(true);
-
     form
       .validateFields()
       .then((values) => {
@@ -479,6 +477,7 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
                             onChange={(value) =>
                               handleAmountChange(wanderer.wanderer_name, value)
                             }
+                            inputMode="numeric"
                           />
                         </Form.Item>
                       );
