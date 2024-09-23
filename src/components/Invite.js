@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { apiAcceptInvite, getActiveWander, getInvites } from "./Services";
-import { Alert, Button, Card, Col, Row, Spin } from "antd";
+import { Alert, Button, Card, Col, message, Row, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 
 function Invite() {
   const wandererId = JSON.parse(localStorage.getItem("user")).wandererId;
+  console.log("🚀 ~ file: Invite.js:9 ~ Invite ~ wandererId:", wandererId);
   const [active, setActive] = useState();
   let navigate = useNavigate();
   const { isLoading, isError, data } = useQuery({
@@ -32,14 +33,24 @@ function Invite() {
 
   const handleAcceptInvite = async (wanderId) => {
     try {
+      message.open({
+        type: "loading",
+        content: "Invite Accepting...",
+        duration: 0,
+      });
       const body = {
         wander_uuid: wanderId,
         status: "accept",
       };
       const response = await apiAcceptInvite(wandererId, body);
-      navigate("/wander/active/wander");
+      message.destroy();
+      message.success("Invite Request Accepted", 2); // Success message
+      setTimeout(() => {
+        navigate("/wander/active/wander");
+      }, 1000);
       // window.location.reload();
     } catch (error) {
+      message.error("Sign-in failed. Please try again.", 2); // Error message
       console.log(
         "🚀 ~ file: Invite.js:46 ~ handleAcceptInvite ~ error:",
         error

@@ -9,6 +9,7 @@ import {
   Form,
   Input,
   InputNumber,
+  message,
   Select,
   Space,
   Spin,
@@ -78,7 +79,12 @@ function CreateWander() {
   };
 
   const onFinish = async (values) => {
-    console.log("🚀 ~ file: CreateWander.js:62 ~ onFinish ~ values:", values);
+    message.open({
+      type: "loading",
+      content: "Wander creating ...",
+      duration: 0,
+    });
+    const loadingMessage = message.loading("Wander creating ...", 0); // Persistent loading message
     try {
       const body = {
         wanderType,
@@ -90,11 +96,16 @@ function CreateWander() {
       };
       console.log("🚀 ~ file: CreateWander.js:60 ~ onFinish ~ body:", body);
       const response = await CreateWanderApi(wandererId, body);
+      message.destroy();
+      message.success("Wander Created successful!", 2); // Success message
       form.resetFields();
       onClose();
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload(); // Reload after success
+      }, 2000);
       console.log("Form submitted successfully:", response);
     } catch (error) {
+      message.error("Wander Creating failed. Please try again.", 2); // Error message
       console.log("Error submitting form:", error);
     }
   };
@@ -105,10 +116,7 @@ function CreateWander() {
       const response = await axios.get(
         `${BASE_URL}/wanderer?wandererId=${value}`
       );
-      console.log(
-        "🚀 ~ file: CreateWander.js:89 ~ fetchOptions ~ response:",
-        response
-      );
+
       setOptions([
         {
           label: response.data.wanderer,
@@ -120,11 +128,15 @@ function CreateWander() {
   }, 800);
 
   const handleSearch = (value) => {
-    if (value && !value.includes("@")) {
-      value += "@gmail.com";
+    let Value = value.toLowerCase();
+    if (Value && !Value.includes("@")) {
+      Value += "@gmail.com";
     }
-    if (value && value.includes("@gmail.com")) {
-      fetchOptions(value);
+    if (Value && Value.includes("@gmail.com")) {
+      fetchOptions(Value);
+    }
+    if (!Value) {
+      setOptions([]);
     }
   };
 
@@ -149,12 +161,20 @@ function CreateWander() {
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "end",
+              justifyContent: "space-evenly",
+              marginBottom: "100px",
             }}
           >
-            <Button onClick={() => form.resetFields()}>Clear</Button>
-            <Button type="primary" htmlType="submit" onClick={handleFinish}>
-              Apply
+            <Button size="large" onClick={() => form.resetFields()}>
+              Clear
+            </Button>
+            <Button
+              size="large"
+              type="primary"
+              htmlType="submit"
+              onClick={handleFinish}
+            >
+              Create
             </Button>
           </Space>
         }
@@ -231,6 +251,7 @@ function CreateWander() {
                 <InputNumber
                   style={{ width: "100%" }}
                   placeholder="Enter budget"
+                  inputMode="numeric"
                 />
               </Form.Item>
 
@@ -250,7 +271,7 @@ function CreateWander() {
                   filterOption={true}
                   onSearch={handleSearch}
                   style={{ width: "100%" }}
-                  options={options}
+                  options={options.length > 0 ? options : []}
                 />
               </Form.Item>
             </Form>

@@ -30,16 +30,22 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
   const [addExpensesLoading, setAddExpensesLoading] = useState(false);
   const mutation = useMutation({
     mutationFn: async (payload) => {
+      message.open({
+        type: "loading",
+        content: "Expense Adding...",
+        duration: 0,
+      });
       if (payload) {
         return await addExpenses(wanderId, payload);
       }
     },
     onSuccess: () => {
-      setAddExpensesLoading(false)
+      setAddExpensesLoading(false);
       form.resetFields();
       clear();
       onClose();
-      message.success("Expense deleted successfully!");
+      message.destroy();
+      message.success("Expense Added Successfully!");
     },
   });
   const handleAmountChange = (id, value) => {
@@ -111,7 +117,8 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
 
   // Update the handleFinish function to check expenseAmount
   const handleFinish = async () => {
-    setAddExpensesLoading(true)
+    setAddExpensesLoading(true);
+
     form
       .validateFields()
       .then((values) => {
@@ -244,12 +251,18 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
             style={{
               display: "flex",
               flexDirection: "row",
-              justifyContent: "end",
+              justifyContent: "space-evenly",
+              marginBottom: "100px",
             }}
           >
             <Button onClick={clear}>Clear</Button>
-            <Button loading={addExpensesLoading} type="primary" htmlType="submit" onClick={handleFinish}>
-              Apply
+            <Button
+              loading={addExpensesLoading}
+              type="primary"
+              htmlType="submit"
+              onClick={handleFinish}
+            >
+              Add Expense
             </Button>
           </Space>
         }
@@ -303,6 +316,7 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
                   placeholder="Enter Amount "
                   style={{ width: "100%" }}
                   onChange={(value) => setExpenseAmount(value)}
+                  inputMode="numeric"
                 />
               </Form.Item>
             </Col>
@@ -360,7 +374,7 @@ function AddExpenses({ isVisible, onClose, wandererList, wanderId }) {
             </Col>
           </Row>
           {/* Split By */}
-          <Col span={12}>
+          <Col xs={24} sm={12}>
             <Form.Item
               name="splitBy"
               label="Split By"

@@ -113,6 +113,11 @@ function ActiveWanderListing(activewanderdata) {
   });
   const mutation = useMutation({
     mutationFn: async (expId) => {
+      message.open({
+        type: "loading",
+        content: "Expense Deleting...",
+        duration: 0,
+      });
       if (expId) {
         return await deleteExpenses(
           wanderdata?.existingwander?.wander_uuid,
@@ -122,7 +127,8 @@ function ActiveWanderListing(activewanderdata) {
     },
     onSuccess: () => {
       setIsModalVisible(false);
-      message.success("Expense deleted successfully!");
+      message.destroy();
+      message.success("Expense Deleted Successfully!");
       queryClient.invalidateQueries([
         "Wander",
         { wanderId: activewanderdata.activewanderdata[0] },
@@ -131,13 +137,19 @@ function ActiveWanderListing(activewanderdata) {
   });
   const completeWanderMutation = useMutation({
     mutationFn: async (wanderId) => {
+      message.open({
+        type: "loading",
+        content: "Wander Saving...",
+        duration: 0,
+      });
       if (wanderId) {
         return await completeWander(wanderdata?.existingwander, wanderId);
       }
     },
     onSuccess: () => {
-      setIsModalVisible(false);
-      message.success("wander saved successfully!");
+      setIsWanderModalVisible(false);
+      message.destroy();
+      message.success("wander Saved Successfully!");
       queryClient.invalidateQueries([
         "Wander",
         { wanderId: activewanderdata.activewanderdata[0] },
@@ -146,13 +158,19 @@ function ActiveWanderListing(activewanderdata) {
   });
   const deleteWanderMutation = useMutation({
     mutationFn: async (expId) => {
+      message.open({
+        type: "loading",
+        content: "Wander Deleting...",
+        duration: 0,
+      });
       if (expId) {
         return await deleteWander(wanderdata?.existingwander, expId);
       }
     },
     onSuccess: () => {
-      setIsModalVisible(false);
-      message.success("Wander deleted successfully!");
+      setIsWanderModalVisible(false);
+      message.destroy();
+      message.success("Wander Deleted Successfully!");
       queryClient.invalidateQueries([
         "Wander",
         { wanderId: activewanderdata.activewanderdata[0] },

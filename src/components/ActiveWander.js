@@ -3,11 +3,11 @@ import CreateWander from "./CreateWander";
 import { useQuery } from "@tanstack/react-query";
 import { getActiveWander } from "./Services";
 import ActiveWanderListing from "./ActiveWanderListing";
-import { Col, Row } from "antd";
+import { Col, Row, Spin } from "antd";
 function ActiveWander() {
   const wandererId = JSON.parse(localStorage.getItem("user")).wandererId;
   const {
-    isactivewanderLoading,
+    isLoading: isactivewanderLoading,
     isactivewanderError,
     data: activewanderdata,
   } = useQuery({
@@ -18,11 +18,38 @@ function ActiveWander() {
       return result.activeWander;
     },
   });
+  const contentStyle = {
+    padding: 50,
+    // background: "rgba(0, 0, 0, 0.05)",
+    borderRadius: 4,
+  };
+  const content = <div style={contentStyle} />;
   return (
     <>
-      {activewanderdata?.length > 0 ? (
+      {!isactivewanderLoading ? (
         <>
-          <ActiveWanderListing activewanderdata={activewanderdata} />
+          {activewanderdata?.length > 0 ? (
+            <>
+              <ActiveWanderListing activewanderdata={activewanderdata} />
+            </>
+          ) : (
+            <>
+              <Row
+                gutter={[16, 16]}
+                style={{
+                  display: "flex",
+                  alignContent: "center",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "80vh",
+                }}
+              >
+                <Col>
+                  <CreateWander />
+                </Col>
+              </Row>
+            </>
+          )}
         </>
       ) : (
         <>
@@ -37,7 +64,9 @@ function ActiveWander() {
             }}
           >
             <Col>
-              <CreateWander />
+              <Spin tip="Loading" size="large">
+                {content}
+              </Spin>
             </Col>
           </Row>
         </>
