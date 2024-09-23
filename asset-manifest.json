@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/wander/static/css/main.e6c13ad2.css",
-    "main.js": "/wander/static/js/main.a20d389b.js",
+    "main.js": "/wander/static/js/main.ff928e91.js",
     "static/media/Rotate.gif": "/wander/static/media/Rotate.34a76a2af4f3f2aa8f9d.gif",
     "index.html": "/wander/index.html",
     "main.e6c13ad2.css.map": "/wander/static/css/main.e6c13ad2.css.map",
-    "main.a20d389b.js.map": "/wander/static/js/main.a20d389b.js.map"
+    "main.ff928e91.js.map": "/wander/static/js/main.ff928e91.js.map"
   },
   "entrypoints": [
     "static/css/main.e6c13ad2.css",
-    "static/js/main.a20d389b.js"
+    "static/js/main.ff928e91.js"
   ]
 }
